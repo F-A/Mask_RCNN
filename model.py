@@ -2210,9 +2210,12 @@ class MaskRCNN():
         callbacks = [
             keras.callbacks.TensorBoard(log_dir=self.log_dir,
                                         histogram_freq=0, write_graph=True, write_images=False),
-            keras.callbacks.ModelCheckpoint(self.checkpoint_path,
+            keras.callbacks.ModelCheckpoint(self.checkpoint_path, save_best_only= True,
                                             verbose=0, save_weights_only=True),
         ]
+
+        if self.config.TRAIN_CALLBACKS is not None:
+            callbacks += self.config.TRAIN_CALLBACKS
 
         # Train
         log("\nStarting at epoch {}. LR={}\n".format(self.epoch, learning_rate))
